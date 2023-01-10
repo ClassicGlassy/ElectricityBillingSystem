@@ -14,34 +14,13 @@ public class Calculation extends SuperDetails{
     };
 
     int[] min_limit = {0,10,20,30,50,100,150,250,400};
-
-    //Inputs = Reading Now, Last Reading
-
     void calculate_Bill(){
         int amp_category = getAmps();
         int use_unit = getCurr_unit_num() - getPrev_unit_num();
-
-//        int unitCategory = unit_use_category(use_unit);
-
-
         double final_amt = calculation(amp_category,use_unit);
 
         setFinal_bill(final_amt);
         setFinal_consume(use_unit);
-
-//        System.out.println(final_amt);
-
-//        System.out.println(unitCategory);
-
-//        int use_unit = 20;
-
-//        System.out.println("Unit category"+unit_use_category(use_unit));
-//        System.out.println(table_min_charges[amp_category][unitCategory]);
-//        System.out.println(table_rates[amp_category][unitCategory]);
-
-//        System.out.println(cumulative_bill(unitCategory));
-
-
     }
 
     double calculation(int amp_cat,int use_unit){
@@ -56,7 +35,6 @@ public class Calculation extends SuperDetails{
         int i = 8;
         while(true){
             if(unit_use <= min_limit[i]){
-//                System.out.println("min = "+min_limit[i]);
                 i--;
             }
             else{
@@ -68,7 +46,6 @@ public class Calculation extends SuperDetails{
     double cumulative_bill(int inp,int amp){
         double sum = 0;
         for(int i = 0;i < inp;i++){
-//            System.out.println("sum =" + sum + " + " +(min_limit[i+1] - min_limit[i])+ " * "+ table_rates[0][i]);
             sum = sum + (double)(min_limit[i+1] - min_limit[i]) * table_rates[amp][i];
         }
         return sum;
