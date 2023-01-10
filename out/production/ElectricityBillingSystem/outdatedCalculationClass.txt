@@ -1,0 +1,116 @@
+public class Calculation extends SuperDetails{
+    int[] min_amt_arr,energy_charge_arr;
+    void calculate(){
+        int amp_S = getAmps();
+        int meter_used = getCurr_unit_num() - getPrev_unit_num();
+
+        //Calculate which category meter_used lies in.
+        //Category = <=20,21-30,31-50,51-150,151-250,251-400,400<
+        //Amps category = 5,15,30,60 as 0,1,2,3 respectively
+
+        int category = category_select(meter_used);
+        int kwH = remaining_calc(category,meter_used);
+
+        //Logic
+        switch(amp_S){
+            case 0: {
+                setFinal_bill(five_amp(category,kwH));
+                break;
+            }
+            case 1:{
+                setFinal_bill(fifteen_amp(category,kwH));
+                break;
+            }
+            case 2:{
+                setFinal_bill(thirty_amp(category,kwH));
+                break;
+            }
+            case 3:{
+                setFinal_bill(sixty_amp(category,kwH));
+                break;
+            }
+            default:
+                break;
+        }
+
+        setFinal_consume(meter_used);
+
+
+    }
+
+    int category_select(int inp){
+        if(inp <=20){
+            return 0;
+        }
+        else if(inp <=30){
+            return 1;
+
+        }
+        else if(inp <=50){
+            return 2;
+        }
+        else if(inp <= 150){
+            return 3;
+        }
+        else if(inp <= 250){
+            return 4;
+        }
+        else if(inp <= 400){
+            return 5;
+        }
+        else{
+            return 6;
+        }
+    }
+
+    int remaining_calc(int index, int energy){
+        if (index == 0)
+        {
+            return energy;
+        }
+        else if(index == 1){
+            return energy - 20;
+        }
+        else if(index == 2){
+            return energy - 30;
+        }
+        else if(index == 3){
+            return energy - 50;
+        }
+        else if(index == 4){
+            return energy - 150;
+        }
+        else if(index == 5){
+            return energy - 250;
+        }
+        else{
+            return energy - 400;
+        }
+
+
+    }
+
+    int five_amp(int index, int energy){
+        min_amt_arr = new int[]{30,50,75,100,125,150,175};
+        energy_charge_arr = new int[]{3,7,9,10,11,12,13};
+        return min_amt_arr[index] + energy * energy_charge_arr[index];
+
+    }
+    int fifteen_amp(int index, int energy){
+        min_amt_arr = new int[]{50,75,100,125,150,175,200};
+        energy_charge_arr = new int[]{4,7,9,10,11,12,13};
+        return min_amt_arr[index] + energy * energy_charge_arr[index];
+    }
+    int thirty_amp(int index, int energy){
+        min_amt_arr = new int[]{75,100,125,150,175,200,225};
+        energy_charge_arr = new int[]{5,7,9,110,11,12,13};
+        return min_amt_arr[index] + energy * energy_charge_arr[index];
+    }
+    int sixty_amp(int index, int energy){
+        min_amt_arr = new int[]{125,150,175,200,225,250,275};
+        energy_charge_arr = new int[]{6,7,9,10,11,12,13};
+        return min_amt_arr[index] + energy * energy_charge_arr[index];
+    }
+}
+
+//This file is outdated and hence placed here only for displaying
